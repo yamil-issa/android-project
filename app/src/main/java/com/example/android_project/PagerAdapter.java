@@ -8,7 +8,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
-    private static final int NUM_TABS = 1;
+    private static final int NUM_TABS = 2;
+    private static final String[] TAB_TITLES = {"Contacts", "Messages"};
 
     public PagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
@@ -20,6 +21,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 return new Contacts();
+            case 1:
+                return new MessageModels();
             default:
                 return null;
         }
@@ -33,12 +36,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0:
-                return "Contact";
-            default:
-                return null;
-        }
+        return TAB_TITLES[position];
     }
 }
 
