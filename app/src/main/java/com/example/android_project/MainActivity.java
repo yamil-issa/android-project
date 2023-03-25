@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        // Find the TabLayout and ViewPager in the layout
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
 
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         viewPager.setAdapter(pagerAdapter);
 
-        // Associate the TabLayout with the ViewPager
+
         tabLayout.setupWithViewPager(viewPager);
     }
 }

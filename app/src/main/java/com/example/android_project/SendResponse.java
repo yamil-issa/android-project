@@ -40,22 +40,17 @@ public class SendResponse extends Fragment {
         View view = inflater.inflate(R.layout.fragment_send_response, container, false);
 
 
-        // Retrieve a reference to the ListView for the auto-replies
         mAutoReplyListView = view.findViewById(R.id.auto_reply_list_view);
 
-        // Initialize the SharedPreferences for the auto-replies
         mPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
 
-        // Load the saved auto-reply list from SharedPreferences
         mAutoReplyList = new ArrayList<>(Arrays.asList(mPrefs.getString("auto_replies", "").split(",")));
         mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, mAutoReplyList);
         mAutoReplyListView.setAdapter(mAdapter);
 
 
-        // Retrieve a reference to the "Send" button
         Button sendButton = view.findViewById(R.id.send_response_button);
 
-        // Set a click listener for the "Send" button
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

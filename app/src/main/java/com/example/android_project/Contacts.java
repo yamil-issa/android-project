@@ -33,17 +33,14 @@ public class Contacts extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
-        // Retrieve a reference to the ListView
         contactsListView = view.findViewById(R.id.contacts_list_view);
 
-        // Query the phone's contacts using a ContentResolver
         ContentResolver cr = getActivity().getContentResolver();
         Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
 
-        // Populate the ListView with the retrieved contacts data
         if (cursor != null && cursor.moveToFirst()) {
             contactsList = new ArrayList<>();
             do {
