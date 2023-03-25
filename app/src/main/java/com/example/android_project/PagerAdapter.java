@@ -8,8 +8,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
-    private static final int NUM_TABS = 2;
-    private static final String[] TAB_TITLES = {"Contacts", "Messages"};
+    private static final int NUM_TABS = 3;
+    private static final String[] TAB_TITLES = {"Contacts", "Messages", "Envoyer"};
 
     public PagerAdapter(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
@@ -23,6 +23,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 return new Contacts();
             case 1:
                 return new MessageModels();
+            case 2:
+                return new SendResponse();
             default:
                 return null;
         }
