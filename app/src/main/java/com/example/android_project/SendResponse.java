@@ -1,5 +1,6 @@
 package com.example.android_project;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -104,6 +105,9 @@ public class SendResponse extends Fragment {
                     smsManager.sendTextMessage(phoneNumber, null, selectedAutoReply, null, null);
 
                 }
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Votre message a été envoyé");
+                builder.show();
             }
         });
 
