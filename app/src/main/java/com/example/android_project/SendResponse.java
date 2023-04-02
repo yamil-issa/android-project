@@ -69,6 +69,7 @@ public class SendResponse extends Fragment {
         mAutoReplyListView.setAdapter(mAdapter);
 
 
+
         mAutoReplyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -88,7 +89,7 @@ public class SendResponse extends Fragment {
 
         Button sendButton = view.findViewById(R.id.send_response_button);
 
-
+        //send the sms to the selected contact
         sendButton.setOnClickListener(new View.OnClickListener() {
 
 
