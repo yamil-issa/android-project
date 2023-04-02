@@ -31,6 +31,14 @@ public class Contacts extends Fragment {
     private ListView contactsListView;
     private ArrayList<Contact> contactsList;
 
+    private static ArrayList<Contact> selectedContacts = new ArrayList<>();
+
+    public ArrayList<Contact> getSelectedContacts() {
+        return selectedContacts;
+    }
+
+
+    @SuppressLint("Range")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -45,7 +53,22 @@ public class Contacts extends Fragment {
             contactsList = new ArrayList<>();
             do {
                 @SuppressLint("Range") String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                contactsList.add(new Contact(contactName, false));
+                @SuppressLint("Range") String contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+
+                // phone number for this contact
+                Cursor phoneCursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                        null,
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                        new String[]{contactId},
+                        null);
+
+                String contactPhoneNumber = null;
+                if (phoneCursor != null && phoneCursor.moveToFirst()) {
+                    contactPhoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    phoneCursor.close();
+                }
+
+                contactsList.add(new Contact(contactName, contactPhoneNumber, false));
             } while (cursor.moveToNext());
             cursor.close();
 
@@ -57,15 +80,22 @@ public class Contacts extends Fragment {
     }
     public class Contact {
         private String name;
+        private String phoneNumber;
         private boolean isSelected;
 
-        public Contact(String name, boolean isSelected) {
+        public Contact(String name, String phoneNumber, boolean isSelected) {
             this.name = name;
+            this.phoneNumber = phoneNumber;
             this.isSelected = isSelected;
+
         }
 
         public String getName() {
             return name;
+        }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
         }
 
         public boolean isSelected() {
@@ -77,7 +107,7 @@ public class Contacts extends Fragment {
         }
 
     }
-    public class ContactsAdapter extends ArrayAdapter<Contact> {
+    public static class ContactsAdapter extends ArrayAdapter<Contact> {
         private Context context;
         private ArrayList<Contact> contactsList;
 
@@ -100,6 +130,10 @@ public class Contacts extends Fragment {
             TextView contactNameTextView = view.findViewById(R.id.contact_name);
             contactNameTextView.setText(contact.getName());
 
+            TextView contactNumberTextView = view.findViewById(R.id.contact_number);
+            contactNumberTextView.setText(contact.getPhoneNumber());
+
+
             CheckBox contactCheckBox = view.findViewById(R.id.contact_checkbox);
             contactCheckBox.setChecked(contact.isSelected());
 
@@ -109,6 +143,13 @@ public class Contacts extends Fragment {
                     CheckBox cb = (CheckBox) v;
                     Contact contact = (Contact) cb.getTag();
                     contact.setSelected(cb.isChecked());
+
+                    if (contact.isSelected()) {
+                        selectedContacts.add(contact);
+                    } else {
+                        selectedContacts.remove(contact);
+                    }
+
                 }
             });
 
